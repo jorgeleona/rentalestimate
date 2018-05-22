@@ -1,11 +1,15 @@
-﻿class FormErrors extends React.Component {
-    state = { errorsList : this.props.formErrors}
-    render(){
-        return (
-           <div className='formErrors'>
-                {JSON.stringify(this.state.errorsList.data)}
-            </div>
-        );
-    }
+﻿import React from 'react';
+
+export default function FormErrors ({formErrors}){
+    return (
+        <div className="alert alert-light" role="alert">
+            {Object.keys(formErrors).map((fieldName, i) => {
+                if(formErrors[fieldName].length > 0){
+                    return (<p key={i} className="font-italic">{formErrors[fieldName]}</p>)
+                } 
+                else {return '';}
+            }
+            )}
+        </div>
+    );
 }
- 

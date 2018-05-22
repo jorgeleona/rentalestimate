@@ -16,12 +16,13 @@ namespace rentalestimate.web.Models
 			LastName = user.LastName;
 			PhoneNumber = user.PhoneNumber;
 			EMail = user.EMail;
+			IPAddress = user.IPAddress;
 			Address = user.Address;
 			City = user.City;
 			ZipCode = user.ZipCode;
 			StateCode = user.StateCode;
-			MonthlyRangeLow = user.MonthlyRangeLow;
-			MonthlyRangeHigh = user.MonthlyRangeHigh;
+			MonthlyRangeLow = user.MonthlyRangeLow.ToString("C2");
+			MonthlyRangeHigh =  user.MonthlyRangeHigh.ToString("C2");
 		}
 
 		public UserInformation ToUserInformation(string requestIPAddress){
@@ -50,7 +51,9 @@ namespace rentalestimate.web.Models
         public string PhoneNumber { get; set; }
 
         public string EMail { get; set; }
-              
+        
+		public string IPAddress { get; set; }
+
 		public string Address { get; set; }
 
 		public string City { get; set; }
@@ -61,9 +64,9 @@ namespace rentalestimate.web.Models
 
 		public string RequestIPAddress { get; set; }
 
-		public decimal MonthlyRangeLow { get; set; }
+		public string MonthlyRangeLow { get; set; }
 
-		public decimal MonthlyRangeHigh { get; set; }
+		public string MonthlyRangeHigh { get; set; }
     }
     
 }

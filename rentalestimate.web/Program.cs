@@ -7,6 +7,7 @@ using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
+using Autofac.Extensions.DependencyInjection;
 
 namespace rentalestimate.web
 {
@@ -19,6 +20,9 @@ namespace rentalestimate.web
 
         public static IWebHostBuilder CreateWebHostBuilder(string[] args) =>
             WebHost.CreateDefaultBuilder(args)
-                .UseStartup<Startup>();
+		           .UseUrls("https://jlrentalestimate.azurewebsites.net/")
+                   .UseStartup<Startup>()
+                   .ConfigureServices(services => services.AddAutofac())
+		           .UseStartup<Startup>();
     }
 }

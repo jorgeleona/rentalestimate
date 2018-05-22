@@ -1,14 +1,13 @@
 ﻿using System;
-using rentalestimate.model.Users;
+using rentalestimate.model.Catalogs;
 using System.Collections.Generic;
 
 namespace rentalestimate.dataaccess.Interfaces
 {
-    public interface IUserInformationRepository
+	public interface IStateRepository
     {
 
-		List<UserInformation> GetUsers();
-		UserInformation AddUser(UserInformation newUser);
-		UserInformation GetUser(int userId);
+		List<State> GetStates();
+
     }
 }

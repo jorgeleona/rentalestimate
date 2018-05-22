@@ -3,6 +3,13 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.SpaServices.ReactDevelopmentServer;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Serialization;
+using Autofac.Extensions.DependencyInjection;
+using Autofac;
+using System.Reflection;
+using Microsoft.AspNetCore.Http;
+using System;
 
 namespace rentalestimate.web
 {
@@ -13,18 +20,45 @@ namespace rentalestimate.web
             Configuration = configuration;
         }
 
-        public IConfiguration Configuration { get; }
+		public IContainer ApplicationContainer { get; private set; }
+		public IConfiguration Configuration { get; }
+
 
         // This method gets called by the runtime. Use this method to add services to the container.
-        public void ConfigureServices(IServiceCollection services)
+		public IServiceProvider ConfigureServices(IServiceCollection services)
         {
+			services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
             services.AddMvc();
 
-            // In production, the React files will be served from this directory
+			// In production, the React files will be served from this directory
             services.AddSpaStaticFiles(configuration =>
             {
                 configuration.RootPath = "ClientApp/build";
             });
+
+			var builder = new ContainerBuilder();
+            builder.Populate(services);
+
+			Assembly servicesAssembly = Assembly.Load("rentalestimate.service");
+            builder.RegisterAssemblyTypes(servicesAssembly).
+                   Where(t => t.Name.EndsWith("Service", System.StringComparison.OrdinalIgnoreCase)).
+                   AsImplementedInterfaces().
+                   InstancePerRequest().
+                   InstancePerLifetimeScope();
+
+            Assembly dataAccessAssembly = Assembly.Load("rentalestimate.dataaccess");
+            builder.RegisterAssemblyTypes(dataAccessAssembly).
+                   Where(t => t.Name.EndsWith("Repository", System.StringComparison.OrdinalIgnoreCase)).
+                   AsImplementedInterfaces().
+                   InstancePerRequest().
+                   InstancePerLifetimeScope();
+
+
+
+           
+
+			this.ApplicationContainer = builder.Build();
+            return new AutofacServiceProvider(this.ApplicationContainer);     
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

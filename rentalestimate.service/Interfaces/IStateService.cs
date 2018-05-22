@@ -1,13 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
-using rentalestimate.model.Users;
+using rentalestimate.model.Catalogs;
 
 namespace rentalestimate.service.Interfaces
 {
-    public interface IUserInformationService
+	public interface IStateService
     {
 		
-        UserInformation AddUser(UserInformation newUser);
-		List<UserInformation> GetUsers();
+		List<State> GetStates();
     }
 }

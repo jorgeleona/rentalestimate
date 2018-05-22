@@ -8,14 +8,15 @@ using rentalestimate.web.Models;
 using rentalestimate.service.Interfaces;
 using rentalestimate.model.Catalogs;
 using Microsoft.AspNetCore.Http;
+using Newtonsoft.Json;
 
 namespace rentalestimate.web.Controllers
 {
+	[Route("api/[controller]")]
     public class HomeController : Controller
     {
         
 		private IUserInformationService _userInformationService;
-		private List<CatalogModel> _states = new List<CatalogModel>();
 		private IHttpContextAccessor _accessor;
 		private IStateService _stateService;
 
@@ -27,18 +28,8 @@ namespace rentalestimate.web.Controllers
 			_accessor = accessor;
 			_userInformationService = userInformationService;
 			_stateService = stateService;
-			SetStates();
-		}      
-  
-        public ActionResult Index()
-        {
-			ViewBag.States = this._states;
 
-			List<UserInformationForm> users = new List<UserInformationForm>();
-            _userInformationService.GetUsers().ForEach(user => users.Add(new UserInformationForm(user)));         
-            
-			return View(users);
-        }
+		}        
 
         [Route("users")]
         [ResponseCache(Location = ResponseCacheLocation.None, NoStore = true)]
@@ -51,37 +42,40 @@ namespace rentalestimate.web.Controllers
 			return Json(users);
         }
 
-        [Route("users/adduser")]
-        [HttpPost]
-		public ActionResult AddUser(UserInformationForm newUser)
+		[Route("states")]
+        [ResponseCache(Location = ResponseCacheLocation.None, NoStore = true)]
+        public ActionResult States()
         {
-			string requestIPAdress = _accessor.HttpContext.Connection.RemoteIpAddress.ToString();
-
-			_userInformationService.AddUser(newUser.ToUserInformation(requestIPAdress));
-            return Content("Success :)");
-        }
-
-		public IActionResult Error()
-        {
-            return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
-        }
-
-		private void SetStates()
-        {
-			_states.Add(new CatalogModel()
+			List<CatalogModel> states = new List<CatalogModel>();
+			states.Add(new CatalogModel()
             {
                 Id = 0,
                 Code = "0",
                 Name = "Select your state"
             });
             _stateService.GetStates().
-                ForEach(state => _states.Add(
+                ForEach(state => states.Add(
                    new CatalogModel()
                    {
                        Id = state.Id,
                        Code = state.StateCode,
                        Name = state.Name
                    }));
+
+            return Json(states);
         }
+
+        [Route("users/adduser")]
+        [HttpPost]
+		public ActionResult AddUser([FromBody]UserInformationForm newUser)
+        {
+			string requestIPAdress = _accessor.HttpContext.Connection.RemoteIpAddress.ToString();
+
+			var userAdded = _userInformationService.AddUser(newUser.ToUserInformation(requestIPAdress));
+
+			NewUserResultModel resultModel = new NewUserResultModel( userAdded);
+
+			return Content(JsonConvert.SerializeObject(resultModel));
+        }             
     }
 }

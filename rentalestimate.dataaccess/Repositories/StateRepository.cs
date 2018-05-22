@@ -3,24 +3,17 @@ using rentalestimate.dataaccess.Interfaces;
 using rentalestimate.dataaccess.Base;
 using rentalestimate.model;
 using System.Collections.Generic;
-using rentalestimate.model.Users;
+using rentalestimate.model.Catalogs;
 
 namespace rentalestimate.dataaccess.Repositories
 {
-	public class UserInformationRepository : BaseRepository<UserInformation>, IUserInformationRepository
+	public class StateRepository : BaseRepository<State>, IStateRepository
     {
-      
-		public List<UserInformation> GetUsers(){
-			
-			return new List<UserInformation>(base.Get());
+       
+		public List<State> GetStates(){
+			return new List<State>(base.Get());
 		}
 
-		public UserInformation AddUser(UserInformation newUser){
-			return base.Add(newUser);
-		}
-
-		public UserInformation GetUser(int userId){
-			return base.Get(userId);
-		}
+		
     }
 }

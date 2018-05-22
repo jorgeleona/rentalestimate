@@ -5,33 +5,37 @@ export class FetchData extends Component {
 
   constructor(props) {
     super(props);
-    this.state = { forecasts: [], loading: true };
+    this.state = { users: [], loading: true };
 
-    fetch('api/SampleData/WeatherForecasts')
+    fetch('api/Home/users')
       .then(response => response.json())
       .then(data => {
-        this.setState({ forecasts: data, loading: false });
+        this.setState({ users: data, loading: false });
       });
   }
 
-  static renderForecastsTable(forecasts) {
+  renderUsersTable(users) {
     return (
       <table className='table'>
         <thead>
           <tr>
-            <th>Date</th>
-            <th>Temp. (C)</th>
-            <th>Temp. (F)</th>
-            <th>Summary</th>
+            <th>User Name</th>
+            <th>Phone number</th>
+            <th>EMail</th>
+            <th>IP Address</th>
+            <th>Address</th>
+            <th>Rent Range</th>
           </tr>
         </thead>
         <tbody>
-          {forecasts.map(forecast =>
-            <tr key={forecast.dateFormatted}>
-              <td>{forecast.dateFormatted}</td>
-              <td>{forecast.temperatureC}</td>
-              <td>{forecast.temperatureF}</td>
-              <td>{forecast.summary}</td>
+          {users.map((user,i) => 
+            <tr key={i}>
+              <td>{user.firstName} {user.lastName}</td>
+              <td>{user.phoneNumber}</td>
+              <td>{user.eMail}</td>
+              <td>{user.ipAddress}</td>
+              <td>{user.address}, {user.city}, {user.stateCode} </td>
+              <td>From {user.monthlyRangeLow} to {user.monthlyRangeHigh}</td>
             </tr>
           )}
         </tbody>
@@ -42,12 +46,12 @@ export class FetchData extends Component {
   render() {
     let contents = this.state.loading
       ? <p><em>Loading...</em></p>
-      : FetchData.renderForecastsTable(this.state.forecasts);
+      : this.renderUsersTable(this.state.users);
 
     return (
       <div>
-        <h1>Weather forecast</h1>
-        <p>This component demonstrates fetching data from the server.</p>
+        <h1>Users</h1>
+        <p>List of users subscribed</p>
         {contents}
       </div>
     );

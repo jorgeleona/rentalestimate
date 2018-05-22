@@ -1,10 +1,16 @@
 ﻿using System;
 namespace rentalestimate.model.Base
 {
-    public class BaseEntity
+    public abstract class BaseEntity
     {
-        public BaseEntity()
-        {
-        }
+		public int Id { get; set; }
+        
+		public DateTime CreatedDate { get; set; }
+
+        public string CreatedUser { get; set; }
+
+        public DateTime ModifiedDate { get; set; }
+
+        public string ModifiedUser { get; set; }
     }
 }

@@ -1,30 +1,24 @@
 ﻿using System;
 using System.Collections.Generic;
 using rentalestimate.dataaccess.Interfaces;
-using rentalestimate.model.Users;
+using rentalestimate.model.Catalogs;
 using rentalestimate.service.Interfaces;
 
 namespace rentalestimate.service.BussinessLogic
 {
-	public class UserInformationService : IUserInformationService
+	public class StatesService : IStateService
     {
-		private IUserInformationRepository _userInformationRepository;
+		private IStateRepository _stateRepository;
 
-		public UserInformationService(IUserInformationRepository userInformationRepository)
+		public StatesService(IStateRepository stateRepository)
         {
-			_userInformationRepository = userInformationRepository;
+			_stateRepository = stateRepository;
         }
-
-       
-        public UserInformation AddUser(UserInformation newUser)
-        {
-			return _userInformationRepository.AddUser(newUser);
-        }
-
-		public List<UserInformation> GetUsers()
+        
+		public List<State> GetStates()
         {
 
-			return _userInformationRepository.GetUsers();
+			return _stateRepository.GetStates();
         }
 
 
