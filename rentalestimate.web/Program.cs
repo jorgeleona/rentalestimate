@@ -15,12 +15,13 @@ namespace rentalestimate.web
     {
         public static void Main(string[] args)
         {
-            CreateWebHostBuilder(args).Build().Run();
+
+			CreateWebHostBuilder(args).Build().Run();
         }
 
         public static IWebHostBuilder CreateWebHostBuilder(string[] args) =>
             WebHost.CreateDefaultBuilder(args)
-		           .UseUrls("https://jlrentalestimate.azurewebsites.net/")
+		           .UseUrls("https://jldemo.azurewebsites.net/")
                    .UseStartup<Startup>()
                    .ConfigureServices(services => services.AddAutofac())
 		           .UseStartup<Startup>();

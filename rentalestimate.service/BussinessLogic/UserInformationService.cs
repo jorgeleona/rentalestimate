@@ -114,17 +114,36 @@ namespace rentalestimate.service.BussinessLogic
 			string fullAddress = $"{userInformation.Address},{userInformation.City},{userInformation.StateCode}";
 
 
-			string basedir = Directory.GetParent(Directory.GetCurrentDirectory()).FullName;
-			string templateLocation = Path.Combine( basedir,"rentalestimate.service", "subscriptionconfirmationtemplate.html");
+			//string basedir = Directory.GetParent(Directory.GetCurrentDirectory()).FullName;
+			//string templateLocation = Path.Combine( basedir,"rentalestimate.service", "subscriptionconfirmationtemplate.html");            
 
-
-			emailTemplate = File.ReadAllText(templateLocation);
+			emailTemplate = GetTemplate();//File.ReadAllText(templateLocation);
 			emailBody = !string.IsNullOrEmpty(emailTemplate) ? 
 			                   String.Format(emailTemplate, name, userInformation.PhoneNumber, 
 			                                 userInformation.EMail, fullAddress, 
 			                                 userInformation.MonthlyRangeLow.ToString("C2"), 
 			                                 userInformation.MonthlyRangeHigh.ToString("C2")) : "";
 		    return emailBody;
+		}
+
+		private string GetTemplate(){
+
+			return 
+				"<!DOCTYPE html>"+
+				"<html>" +
+				"<head>" +
+				"<meta charset = \"utf-8\"/>" +  
+				"<title></title>" +
+				"</head>" +
+				"<body>" +
+				"<table>" +
+				"<tr><td> Subscriber </td><td>{0}</td></tr>" +
+				"<tr><td> Phone number </td><td>{1}</td></tr>" +
+				"<tr><td> EMail </td><td>{2}</td></tr>" +
+				"<tr><td> Address </td><td>{3}</td></tr>" +
+				"<tr><td> Estimated monthly rental</td><td> From {4} to {5}</td></tr>" +
+				"</table>"+
+				"</body></html>";
 		}
     }
 }
