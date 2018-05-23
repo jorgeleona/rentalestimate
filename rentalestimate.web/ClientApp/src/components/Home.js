@@ -97,10 +97,17 @@ export const Home = observer( class Home extends Component {
         FormInfo.formSubmitted = false;
         FormInfo.result='';
         FormInfo.resultdetails='';  
+        let myHeaders = new Headers();
+
+       let header = new Headers({
+            'Access-Control-Allow-Origin':'*',
+            'Content-Type': 'application/json'
+        });
+
             fetch('api/Home/users/addUser', {
-                method: 'POST',
-                mode: 'CORS',
-                headers: {'Content-Type':'application/json'},
+                method: 'post',
+                mode: 'cors',
+                headers: header,
                 body: JSON.stringify({ 'FirstName': FormInfo.firstname.trim(),
                     'LastName': FormInfo.lastname.trim(),
                     'PhoneNumber': FormInfo.phonenumber.trim(),
