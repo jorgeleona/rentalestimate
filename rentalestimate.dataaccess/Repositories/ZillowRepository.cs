@@ -21,7 +21,7 @@ namespace rentalestimate.dataaccess.Repositories
 
 			string address = userInformation.Address.Replace(' ','+');
 			string citystatezip = $"{userInformation.City}+{userInformation.StateCode}+{userInformation.ZipCode}";
-			String url = $"http://www.zillow.com/webservice/GetSearchResults.htm?zws-id={_zwsid}&address={address}&citystatezip={citystatezip}";
+			String url = $"http://www.zillow.com/webservice/GetSearchResults.htm?zws-id={_zwsid}&address={address}&citystatezip={citystatezip}&rentzestimate=true";
 
 			SearchResult result = new SearchResult();
 

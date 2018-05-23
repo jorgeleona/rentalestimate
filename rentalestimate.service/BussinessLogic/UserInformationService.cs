@@ -111,7 +111,7 @@ namespace rentalestimate.service.BussinessLogic
 		    string emailTemplate = string.Empty;
 
 		    string name = $"{userInformation.FirstName} {userInformation.LastName}";
-			string fullAddress = $"{userInformation.Address},{userInformation.City},{userInformation.StateCode}";
+			string fullAddress = $"{userInformation.Address},{userInformation.City},{userInformation.StateCode},{userInformation.ZipCode}";
 
 
 			//string basedir = Directory.GetParent(Directory.GetCurrentDirectory()).FullName;

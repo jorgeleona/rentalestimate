@@ -34,7 +34,7 @@ export class FetchData extends Component {
               <td>{user.phoneNumber}</td>
               <td>{user.eMail}</td>
               <td>{user.ipAddress}</td>
-              <td>{user.address}, {user.city}, {user.stateCode} </td>
+              <td>{user.address}, {user.city}, {user.stateCode}, {user.zipCode} </td>
               <td>From {user.monthlyRangeLow} to {user.monthlyRangeHigh}</td>
             </tr>
           )}
